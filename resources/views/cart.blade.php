@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Laravel Ajax CRUD</title>
+    <style>
+        body {
+            background-color: lightgray !important;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="container" style="margin-top: 50px">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="text-center">CART</h4>
+                <div class="card border-0 shadow-sm rounded-md mt-4">
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Content</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($cart as $item)
+                                    <tr>
+                                        <td>{{ $item['title'] }}</td>
+                                        <td>{{ $item['content'] }}</td>
+                                        <td>
+                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm"
+                                                onclick="removeFromCart({{ $item['id'] }})">REMOVE</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include your scripts as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        function removeFromCart(postId) {
+            $.ajax({
+                url: '/remove-from-cart',
+                type: 'POST',
+                data: {
+                    id: postId,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    // Handle success response, if needed
+                    console.log(response);
+                    // For example, you can show a success message or update the cart content
+                    location.reload(); // Reload the page to reflect the updated cart
+                },
+                error: function(xhr) {
+                    // Handle error response, if needed
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
