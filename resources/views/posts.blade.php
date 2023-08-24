@@ -20,14 +20,13 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="" id="brand-link">Your Brand</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item" id="home-link">
-                    <a class="nav-link" href="" >Home</a>
+                    <a class="nav-link" href="">Home</a>
                 </li>
                 <li class="nav-item" id="cart-link">
                     <a class="nav-link" href="">Cart</a>
@@ -41,10 +40,16 @@
 
     <script>
         $(document).ready(function() {
-            loadHomeLink();
-            function loadAboutPage() {
+            // Ambil URL halaman yang akan dimuat dari localStorage atau setel ke halaman beranda default
+            var currentPage = localStorage.getItem('currentPage') || '/posts';
+
+            // Muat konten halaman sesuai dengan URL yang diambil
+            loadPage(currentPage);
+
+            // Fungsi untuk memuat halaman menggunakan AJAX
+            function loadPage(pageUrl) {
                 $.ajax({
-                    url: '/cart',
+                    url: pageUrl,
                     type: 'GET',
                     success: function(data) {
                         $('#showPage').html(data);
@@ -55,32 +60,25 @@
                 });
             }
 
-            $('#cart-link').on('click', function(e) {
-                e.preventDefault();
-                loadAboutPage();
-            });
-
-            function loadHomeLink() {
-                $.ajax({
-                    url: '/posts',
-                    type: 'GET',
-                    success: function(data) {
-                        $('#showPage').html(data);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            }
-
+            // Handler ketika tombol "Home" diklik
             $('#home-link').on('click', function(e) {
                 e.preventDefault();
-                loadHomeLink();
+                loadPage('/posts');
+                localStorage.setItem('currentPage', '/posts'); // Simpan URL halaman ke localStorage
             });
 
+            // Handler ketika tombol "Cart" diklik
+            $('#cart-link').on('click', function(e) {
+                e.preventDefault();
+                loadPage('/cart');
+                localStorage.setItem('currentPage', '/cart'); // Simpan URL halaman ke localStorage
+            });
+
+            // Handler ketika brand/logo diklik
             $('#brand-link').on('click', function(e) {
                 e.preventDefault();
-                loadHomeLink();
+                loadPage('/posts');
+                localStorage.setItem('currentPage', '/posts'); // Simpan URL halaman ke localStorage
             });
         });
     </script>

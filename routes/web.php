@@ -19,10 +19,32 @@ Route::resource('/posts', App\Http\Controllers\PostController::class);
 Route::get('/', function () {
     return view('posts');
 });
+Route::post('/update-qty-in-cart', function (\Illuminate\Http\Request $request) {
+    $id = $request->input('id');
+    $newQty = $request->input('qty');
+
+    // Retrieve the current cart from session
+    $cart = Session::get('cart', []);
+
+    // Update the quantity of the selected item in the cart
+    foreach ($cart as &$item) {
+        if ($item['id'] === $id) {
+            $item['qty'] = $newQty;
+            break;
+        }
+    }
+
+    // Store the updated cart back into session
+    Session::put('cart', $cart);
+
+    return response()->json(['success' => true]);
+});
 Route::post('/add-to-cart', function (\Illuminate\Http\Request $request) {
     $id = $request->input('id');
     $title = $request->input('title');
     $content = $request->input('content');
+    $price = $request->input('price');
+    $qty = 1;
 
     // Retrieve the current cart from session
     $cart = Session::get('cart', []);
@@ -39,6 +61,8 @@ Route::post('/add-to-cart', function (\Illuminate\Http\Request $request) {
         'id' => $id,
         'title' => $title,
         'content' => $content,
+        'price' => $price,
+        'qty' => 1,
     ];
 
     // Store the updated cart back into session

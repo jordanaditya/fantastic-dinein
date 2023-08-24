@@ -13,16 +13,22 @@
                 <input type="hidden" id="post_id">
 
                 <div class="form-group">
-                    <label for="name" class="control-label">Title</label>
+                    <label for="title" class="control-label">Title</label>
                     <input type="text" class="form-control" id="title-edit">
                     <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-title-edit"></div>
                 </div>
 
 
                 <div class="form-group">
-                    <label class="control-label">Content</label>
+                    <label for="content" class="control-label">Content</label>
                     <textarea class="form-control" id="content-edit" rows="4"></textarea>
                     <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-content-edit"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="price" class="control-label">Price</label>
+                    <textarea class="form-control" id="price-edit" rows="4"></textarea>
+                    <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-price-edit"></div>
                 </div>
 
             </div>
@@ -51,6 +57,7 @@
                 $('#post_id').val(response.data.id);
                 $('#title-edit').val(response.data.title);
                 $('#content-edit').val(response.data.content);
+                $('#price-edit').val(response.data.price);
 
                 //open modal
                 $('#modal-edit').modal('show');
@@ -66,6 +73,7 @@
         let post_id = $('#post_id').val();
         let title = $('#title-edit').val();
         let content = $('#content-edit').val();
+        let price = $('#price-edit').val();
         let token = $("meta[name='csrf-token']").attr("content");
 
         //ajax
@@ -95,6 +103,7 @@
                     <tr id="index_${response.data.id}">
                         <td>${response.data.title}</td>
                         <td>${response.data.content}</td>
+                        <td>${response.data.price}</td>
                         <td class="text-center">
                             <a href="javascript:void(0)" id="btn-edit-post" data-id="${response.data.id}" class="btn btn-primary btn-sm">EDIT</a>
                             <a href="javascript:void(0)" id="btn-delete-post" data-id="${response.data.id}" class="btn btn-danger btn-sm">DELETE</a>

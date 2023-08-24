@@ -34,24 +34,22 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Content</th>
+                                    <th>Price</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="table-posts">
                                 @foreach ($posts as $post)
-                                    <tr id="index_{{ $post->id }}">
-                                        <td>{{ $post->title }}</td>
-                                        <td>{{ $post->content }}</td>
-                                        <td class="text-center">
-                                            <a href="javascript:void(0)" id="btn-edit-post"
-                                                data-id="{{ $post->id }}" class="btn btn-primary btn-sm">EDIT</a>
-                                            <a href="javascript:void(0)" id="btn-delete-post"
-                                                data-id="{{ $post->id }}" class="btn btn-danger btn-sm">DELETE</a>
-                                            <a href="javascript:void(0)" id="btn-add-post" data-id="{{ $post->id }}"
-                                                data-title="{{ $post->title }}" data-content="{{ $post->content }}"
-                                                class="btn btn-success btn-sm">ADD CART +</a>
-                                        </td>
-                                    </tr>
+                                <tr id="index_{{ $post->id }}">
+                                    <td>{{ $post->title }}</td>
+                                    <td>{{ $post->content }}</td>
+                                    <td>{{ $post->price }}</td>
+                                    <td class="text-center">
+                                        <a href="javascript:void(0)" id="btn-edit-post" data-id="{{ $post->id }}" class="btn btn-primary btn-sm">EDIT</a>
+                                        <a href="javascript:void(0)" id="btn-delete-post" data-id="{{ $post->id }}" class="btn btn-danger btn-sm">DELETE</a>
+                                        <a href="javascript:void(0)" id="btn-add-post" data-id="{{ $post->id }}" data-title="{{ $post->title }}" data-content="{{ $post->content }}" data-price="{{ $post->price }}" class="btn btn-success btn-sm">ADD CART +</a>
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                     </div>
@@ -65,14 +63,15 @@
 
     <script>
         $(document).ready(function() {
-            function addToCart(postId, postTitle, postContent) {
+            function addToCart(postId, postTitle, postContent, postPrice) {
                 $.ajax({
                     url: '/add-to-cart',
                     type: 'POST',
                     data: {
                         id: postId,
                         title: postTitle,
-                        content: postContent
+                        content: postContent,
+                        price: postPrice,
                     },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -94,11 +93,12 @@
                 var postId = $(this).data('id');
                 var postTitle = $(this).data('title');
                 var postContent = $(this).data('content');
-                addToCart(postId, postTitle, postContent);
+                var postPrice = $(this).data('price');
+                addToCart(postId, postTitle, postContent, postPrice);
             });
         });
     </script>
-
+    
 </body>
 
 </html>

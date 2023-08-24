@@ -34,6 +34,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title'     => 'required',
             'content'   => 'required',
+            'price'   => 'required',
         ]);
 
         //check if validation fails
@@ -44,7 +45,8 @@ class PostController extends Controller
         //create post
         $post = Post::create([
             'title'     => $request->title, 
-            'content'   => $request->content
+            'content'   => $request->content,
+            'price'   => $request->price
         ]);
 
         //return response
@@ -84,6 +86,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title'     => 'required',
             'content'   => 'required',
+            'price'   => 'required'
         ]);
 
         //check if validation fails
@@ -94,7 +97,8 @@ class PostController extends Controller
         //create post
         $post->update([
             'title'     => $request->title, 
-            'content'   => $request->content
+            'content'   => $request->content,
+            'price'   => $request->price
         ]);
 
         //return response
