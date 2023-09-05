@@ -19,6 +19,18 @@ Route::resource('/posts', App\Http\Controllers\PostController::class);
 Route::get('/', function () {
     return view('posts');
 });
+Route::get('/index', function () {
+    return view('layouts.index');
+});
+Route::get('/label-job/record', function () {
+    return view('label-job.record');
+});
+Route::get('/mutasi-barang/record', function () {
+    return view('mutasi-barang.record');
+});
+Route::get('/label-efi/record', function () {
+    return view('label-efi.record');
+});
 Route::post('/update-qty-in-cart', function (\Illuminate\Http\Request $request) {
     $id = $request->input('id');
     $newQty = $request->input('qty');
@@ -90,7 +102,9 @@ Route::post('/remove-from-cart', function (\Illuminate\Http\Request $request) {
 
     return response()->json(['success' => true]);
 });
-
+Route::get('/history', function () {
+    return view('history');
+});
 Route::get('/template', function () {
     return view('template');
 });

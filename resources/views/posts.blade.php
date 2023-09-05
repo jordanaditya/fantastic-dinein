@@ -20,7 +20,8 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="" id="brand-link">Your Brand</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -30,6 +31,9 @@
                 </li>
                 <li class="nav-item" id="cart-link">
                     <a class="nav-link" href="">Cart</a>
+                </li>
+                <li class="nav-item" id="history-link">
+                    <a class="nav-link" href="">History</a>
                 </li>
             </ul>
         </div>
@@ -60,6 +64,13 @@
                 });
             }
 
+            // Handler ketika brand/logo diklik
+            $('#brand-link').on('click', function(e) {
+                e.preventDefault();
+                loadPage('/posts');
+                localStorage.setItem('currentPage', '/posts'); // Simpan URL halaman ke localStorage
+            });
+
             // Handler ketika tombol "Home" diklik
             $('#home-link').on('click', function(e) {
                 e.preventDefault();
@@ -74,12 +85,13 @@
                 localStorage.setItem('currentPage', '/cart'); // Simpan URL halaman ke localStorage
             });
 
-            // Handler ketika brand/logo diklik
-            $('#brand-link').on('click', function(e) {
+            // Handler ketika tombol "Cart" diklik
+            $('#history-link').on('click', function(e) {
                 e.preventDefault();
-                loadPage('/posts');
-                localStorage.setItem('currentPage', '/posts'); // Simpan URL halaman ke localStorage
+                loadPage('/history');
+                localStorage.setItem('currentPage', '/history'); // Simpan URL halaman ke localStorage
             });
+
         });
     </script>
 </body>

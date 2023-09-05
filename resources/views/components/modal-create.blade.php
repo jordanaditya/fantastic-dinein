@@ -88,6 +88,7 @@
                         <td class="text-center">
                             <a href="javascript:void(0)" id="btn-edit-post" data-id="${response.data.id}" class="btn btn-primary btn-sm">EDIT</a>
                             <a href="javascript:void(0)" id="btn-delete-post" data-id="${response.data.id}" class="btn btn-danger btn-sm">DELETE</a>
+                            <a href="javascript:void(0)" id="btn-add-post" data-id="${response.data.id}" data-title="${response.data.title}" data-content="${response.data.content}" data-price="${response.data.price}" class="btn btn-success btn-sm">ADD CART +</a>
                         </td>
                     </tr>
                 `;
