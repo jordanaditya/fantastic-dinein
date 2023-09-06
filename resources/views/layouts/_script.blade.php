@@ -28,38 +28,6 @@
     <script src="{{ asset('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('assets/dist/js/adminlte.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            $(".table tbody tr[data-depth]").each(function() {
-                var depth = $(this).data("depth");
-                var indent = depth * 20; // Mengatur jarak indentasi
-
-                $(this).find(".number-cell").css("padding-left", indent + "px");
-
-                if ($(this).next("tr").data("depth") > depth) {
-                    $(this).addClass("expandable");
-                }
-            });
-
-            $(".expandable").click(function() {
-                var depth = $(this).data("depth");
-                var nextDepth = depth + 1;
-
-                $(this).toggleClass("expanded");
-
-                $(this).nextAll("tr[data-depth=" + nextDepth + "]").each(function() {
-                    if ($(this).data("depth") === nextDepth) {
-                        $(this).toggle();
-                        $(this).find(".number-cell").toggleClass("no-border");
-                    } else {
-                        return false;
-                    }
-                });
-            });
-        });
-    </script>
-
     <script>
         $(document).ready(function() {
             var currentPage = localStorage.getItem('currentPage') || '/posts';
@@ -79,28 +47,11 @@
                 });
             }
 
-            $('#brand-link').on('click', function(e) {
+            $('#recordLabelSupplier-link').on('click', function(e) {
                 e.preventDefault();
-                loadPage('/posts');
-                localStorage.setItem('currentPage', '/posts');
-            });
-
-            $('#home-link').on('click', function(e) {
-                e.preventDefault();
-                loadPage('/posts');
-                localStorage.setItem('currentPage', '/posts');
-            });
-
-            $('#cart-link').on('click', function(e) {
-                e.preventDefault();
-                loadPage('/cart');
-                localStorage.setItem('currentPage', '/cart');
-            });
-
-            $('#history-link').on('click', function(e) {
-                e.preventDefault();
-                loadPage('/history');
-                localStorage.setItem('currentPage', '/history');
+                loadPage('/label-supplier/record');
+                localStorage.setItem('currentPage',
+                    '/label-supplier/record');
             });
 
             $('#recordLabelJob-link').on('click', function(e) {

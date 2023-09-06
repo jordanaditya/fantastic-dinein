@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/posts', App\Http\Controllers\PostController::class);
 Route::get('/', function () {
-    return view('posts');
-});
-Route::get('/index', function () {
     return view('layouts.index');
+});
+Route::get('/label-supplier/record', function () {
+    return view('label-supplier.record');
 });
 Route::get('/label-job/record', function () {
     return view('label-job.record');

@@ -20,3 +20,9 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
+    <style>
+        /* CSS untuk mengubah kursor menjadi pointer saat baris tabel di-expand */
+        tr.accordion-toggle[data-toggle="collapse"]:hover {
+            cursor: pointer;
+        }
+    </style>

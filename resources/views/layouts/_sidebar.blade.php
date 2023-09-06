@@ -30,7 +30,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link" id="history-link">
+                                    <a href="" class="nav-link" id="recordLabelSupplier-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Record Supplier</p>
                                     </a>
