@@ -1,147 +1,50 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Expandable Table Tree</h3>
+        <h3 class="card-title"><b>Record Label Supplier</b></h3>
     </div>
-    <!-- ./card-header -->
 
     <div class="card-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nama</th>
-                    <th>Deskripsi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr data-toggle="collapse" data-target="#data1" class="accordion-toggle">
-                    <td>1</td>
-                    <td>Data Item 1</td>
-                    <td>Deskripsi Data Item 1</td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="hiddenRow">
-                        <div class="accordian-body collapse" id="data1">
-                            <!-- Tabel anak untuk Data Item 1 -->
-                            <table class="table table-bordered child-table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Header 1</th>
-                                        <th>Header 2</th>
-                                        <th>Header 3</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr data-toggle="collapse" data-target="#data1-1" class="accordion-toggle">
-                                        <td>1.1</td>
-                                        <td>Data Item 1.1</td>
-                                        <td>Deskripsi Data Item 1.1</td>
-                                        <td><a href="#" class="expandable-row">Expand</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4" class="hiddenRow">
-                                            <div class="accordian-body collapse" id="data1-1">
-                                                <!-- Tabel anak untuk Data Item 1.1 -->
-                                                <table class="table table-bordered child-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th>Header 1.1</th>
-                                                            <th>Header 1.2</th>
-                                                            <th>Header 1.3</th>
-                                                            <th><a href="#" class="expandable-row">Expand</a></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- Data tabel anak untuk Data Item 1.1 akan diisi melalui JavaScript -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-                <tr data-toggle="collapse" data-target="#data2" class="accordion-toggle">
-                    <td>2</td>
-                    <td>Data Item 2</td>
-                    <td>Deskripsi Data Item 2</td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="hiddenRow">
-                        <div class="accordian-body collapse" id="data2">
-                            <!-- Tabel anak untuk Data Item 2 -->
-                            <table class="table table-bordered child-table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Header 1</th>
-                                        <th>Header 2</th>
-                                        <th>Header 3</th>
-                                        <th><a href="#" class="expandable-row">Expand</a></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Data tabel anak untuk Data Item 2 akan diisi melalui JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-                <!-- Tambahkan Data Item lainnya sesuai kebutuhan -->
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="myTable" class="display nowrap w-100">
+                <thead>
+                    <tr>
+                        <th style="width:20px;"></th>
+                        <th style="width:5%;">ID Site</th>
+                        <th style="width:95%;">Site</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($supplierRecords as $record)
+                        <tr>
+                            <td style="details-control;"></td>
+                            <td>{{ $record->stock_code }}</td>
+                            <td>{{ $record->material_desc }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </div>
-    <script>
-        $(document).ready(function () {
-            // Data untuk tabel anak (child table)
-            var dataItem1 = [
-                ["1.1.1", "Data 1.1.1.1", "Data 1.1.1.2", "Data 1.1.1.3"],
-                ["1.1.2", "Data 1.1.2.1", "Data 1.1.2.2", "Data 1.1.2.3"],
-                // Tambahkan data lainnya sesuai kebutuhan
-            ];
-
-            var dataItem2 = [
-                ["2.1.1", "Data 2.1.1.1", "Data 2.1.1.2", "Data 2.1.1.3"],
-                ["2.1.2", "Data 2.1.2.1", "Data 2.1.2.2", "Data 2.1.2.3"],
-                // Tambahkan data lainnya sesuai kebutuhan
-            ];
-
-            // Fungsi untuk mengisi data ke tabel anak
-            function fillChildTable(childTable, data) {
-                var tbody = childTable.find("tbody");
-                tbody.empty();
-                $.each(data, function (index, rowData) {
-                    var row = $("<tr>");
-                    $.each(rowData, function (key, value) {
-                        row.append($("<td>").text(value));
-                    });
-                    tbody.append(row);
-                });
+<script>
+    $('#myTable').DataTable({
+        "stripeClasses": [],
+        columns: [{
+                className: 'details-control',
+                orderable: false,
+                data: null,
+                defaultContent: ''
+            },
+            {
+                data: 'stock_code'
+            },
+            {
+                data: 'material_desc'
             }
-
-            // Menambahkan event listener untuk meng-expand tabel anak di dalam "Header 1"
-            $(".expandable-row").on("click", function (e) {
-                e.preventDefault();
-                var target = $(this).closest("tr").data("target");
-                var childTable = $(target).find(".child-table");
-                if (childTable.is(":visible")) {
-                    childTable.slideUp();
-                } else {
-                    childTable.slideDown();
-                }
-            });
-
-            // Menambahkan data ke tabel anak untuk Data Item 1.1
-            var childTableData1_1 = $("#data1-1").find(".child-table");
-            fillChildTable(childTableData1_1, dataItem1);
-
-            // Menambahkan data ke tabel anak untuk Data Item 2
-            var childTableData2 = $("#data2").find(".child-table");
-            fillChildTable(childTableData2, dataItem2);
-        });
-    </script>
+        ],
+        order: [
+            [1, 'asc']
+        ]
+    });
+</script>
