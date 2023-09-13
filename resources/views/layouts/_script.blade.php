@@ -32,6 +32,7 @@
     <script src="{{ url('js/nested.tables.js') }}"></script>
     <script>
         $(document).ready(function() {
+            
             var currentPage = localStorage.getItem('currentPage') || '/label-supplier/record';
             loadPage(currentPage);
 
