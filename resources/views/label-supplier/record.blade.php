@@ -104,13 +104,10 @@
                 '" class="display nowrap w-100" width="100%">' +
                 '<thead>' +
                 '<tr>' +
-                '<th style="width: 6%;"></th>' +
                 '<th>No</th>' +
                 '<th>Barcode</th>' +
-                '<th>PO Number</th>' +
                 '<th>Qty</th>' +
                 '<th>Status Print</th>' +
-                '<th>User</th>' +
                 '<th>Waktu Input</th>' +
                 '<th>Aksi</th>' +
                 '</tr>' +
@@ -220,7 +217,6 @@
             var row = childTable.row(tr);
             var rowData = row.data();
 
-
             if (row.child.isShown()) {
                 // This row is already open - close it
                 row.child.hide();
@@ -231,36 +227,49 @@
             } else {
                 // Open this row
                 row.child(format2(rowData)).show();
-                var id = rowData.stock_code;
-
-
-                childTable2 = $('#barcode' + id).DataTable({
-                    // dom: "t",
-                    "lengthChange": false,
-                    "searching": true,
+                var stock_code = rowData.stock_code;
+                childTable2 = $('#barcode' + stock_code).DataTable({
                     "stripeClasses": [],
-                    "ordering": false,
-                    "paging": false,
-                    "info": false,
-                    // "scrollX": true,
                     ajax: {
                         url: '/label-supplier/record/get-barcode',
                         dataSrc: 'data',
                         data: function(d) {
                             return {
-                                data1: id,
+                                stock_code: stock_code,
                             };
                         },
                     },
-                    pageLength: 50,
-                    columns: [{
-                            className: 'details-control2',
+                    "columnDefs": [{
+                        "targets": 0, // Kolom yang ingin Anda ganti dengan penomoran
+                        "data": null,
+                        "render": function(data, type, row, meta) {
+                            // Mengembalikan nomor urut dari 1 hingga seterusnya
+                            return meta.row + 1;
+                        }
+                    }],
+                    columns: [
+                        {
                             orderable: false,
                             data: null,
-                            defaultContent: ''
+                            defaultContent: '',
+                            title: 'No'
                         },
                         {
-                            data: "stock_code",
+                            data: "barcode_material",
+                        },
+                        {
+                            data: "material_qty",
+                        },
+                        {
+                            data: function(row) {
+                                var printed = row.barcodes && row.barcodes.printed;
+                                if (printed === null || printed === undefined ||
+                                    printed === "") {
+                                    return "Belum Print";
+                                } else {
+                                    return "Sudah Print";
+                                }
+                            },
                         },
                         {
                             data: "created_at",
@@ -272,142 +281,23 @@
                                 var hours = ("0" + date.getHours()).slice(-2);
                                 var minutes = ("0" + date.getMinutes()).slice(-2);
                                 var seconds = ("0" + date.getSeconds()).slice(-2);
-                                return day + "/" + month + "/" + year;
+                                return hours +
+                                    ":" + minutes + ":" + seconds;
                             }
                         },
                         {
-                            data: "supplier_name",
-                        },
-                        {
-                            data: "material_desc",
-                        },
-                        {
-                            data: "barcode_qty",
-                        },
+                            render: function(data, type, row) {
+                                return '<input type="checkbox" class="checkBoxBarcode" name="check[]" value="' +
+                                    row
+                                    .barcode_material + '">';
+                            },
+                            title: "Aksi"
+                        }
                     ],
                     select: false,
                 });
-
                 tr.addClass('shown');
             }
         });
-
-        // Add event listener for opening and closing third level childdetails
-        // $('tbody').on('click', 'td.details-control2', function() {
-        //     var tr = $(this).closest('tr');
-        //     var row = childTable2.row(tr);
-        //     var rowData = row.data();
-
-        //     if (row.child.isShown()) {
-        //         // This row is already open - close it
-        //         row.child.hide();
-        //         tr.removeClass('shown');
-
-        //         // Destroy the Child Datatable
-        //         $('#barcode' + rowData.stock_code).DataTable().destroy();
-        //     } else {
-        //         // Open this row
-        //         row.child(format3(rowData)).show();
-        //         var id = rowData.stock_code;
-
-        //         childTable3 = $('#barcode' + id).DataTable({
-        //             // dom: "t",
-        //             "lengthChange": false,
-        //             "searching": true,
-        //             "stripeClasses": [],
-        //             "ordering": false,
-        //             "paging": false,
-        //             "info": false,
-        //             // "scrollX": true,
-        //             ajax: {
-        //                 url: '/barang/barang-barcode',
-        //                 dataSrc: 'data',
-        //                 data: function(d) {
-        //                     return {
-        //                         data1: id,
-        //                     };
-        //                 },
-        //                 pageLength: 50,
-        //                 // success: function(response) {
-        //                 //     console.log(
-        //                 //     response); // Menampilkan respons dari permintaan Ajax
-        //                 // },
-        //             },
-        //             "columnDefs": [{
-        //                 "targets": 1, // Kolom yang ingin Anda ganti dengan penomoran
-        //                 "data": null,
-        //                 "render": function(data, type, row, meta) {
-        //                     // Mengembalikan nomor urut dari 1 hingga seterusnya
-        //                     return meta.row + 1;
-        //                 }
-        //             }],
-        //             columns: [{
-        //                     orderable: false,
-        //                     data: null,
-        //                     defaultContent: ''
-        //                 },
-        //                 {
-        //                     orderable: false,
-        //                     data: null,
-        //                     defaultContent: '',
-        //                     title: 'No'
-        //                 },
-        //                 {
-        //                     data: "barcode_material",
-        //                 },
-        //                 {
-        //                     data: function(row) {
-        //                         var user = row.input.po_id;
-        //                         return user;
-        //                     },
-        //                 },
-        //                 {
-        //                     data: "material_qty",
-        //                 },
-        //                 {
-        //                     data: function(row) {
-        //                         var printed = row.barcodes && row.barcodes.printed;
-        //                         if (printed === null || printed === undefined ||
-        //                             printed === "") {
-        //                             return "Belum Print";
-        //                         } else {
-        //                             return "Sudah Print";
-        //                         }
-        //                     },
-        //                 },
-        //                 {
-        //                     data: function(row) {
-        //                         var user = row.user.name;
-        //                         return user;
-        //                     },
-        //                 },
-        //                 {
-        //                     data: "created_at",
-        //                     render: function(data) {
-        //                         var date = new Date(data);
-        //                         var day = ("0" + date.getDate()).slice(-2);
-        //                         var month = ("0" + (date.getMonth() + 1)).slice(-2);
-        //                         var year = date.getFullYear();
-        //                         var hours = ("0" + date.getHours()).slice(-2);
-        //                         var minutes = ("0" + date.getMinutes()).slice(-2);
-        //                         var seconds = ("0" + date.getSeconds()).slice(-2);
-        //                         return hours +
-        //                             ":" + minutes + ":" + seconds;
-        //                     }
-        //                 },
-        //                 {
-        //                     render: function(data, type, row) {
-        //                         return '<input type="checkbox" class="checkBoxBarcode" name="check[]" value="' +
-        //                             row
-        //                             .barcode_material + '">';
-        //                     },
-        //                     title: "Aksi"
-        //                 }
-        //             ],
-        //             select: false,
-        //         });
-        //         tr.addClass('shown');
-        //     }
-        // });
     });
 </script>

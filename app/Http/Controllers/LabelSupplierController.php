@@ -11,7 +11,7 @@ class LabelSupplierController extends Controller
 {
     public function index(Request $request)
     {
-        $supplierCategories = SupplierRecord::distinct()->get(['paper_type']);
+        $supplierCategories = SupplierRecord::whereDate('created_at', Carbon::today())->distinct()->get(['paper_type']);
         return view('label-supplier.record', compact('supplierCategories'));
     }
 
@@ -34,7 +34,7 @@ class LabelSupplierController extends Controller
     public function tabelBarcodes(Request $request)
     {
         $stockCodes = $request->input('stock_code');
-        $supplierBarcodes = SupplierRecord::where('paper_type', $stockCodes)
+        $supplierBarcodes = SupplierRecord::where('stock_code', $stockCodes)
             ->whereDate('created_at', Carbon::today())
             ->orderBy('created_at', 'desc')
             ->get();
