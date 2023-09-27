@@ -9,7 +9,7 @@ class MutasiBarangController extends Controller
 {
     public function index()
     {
-        $supplierRecord = SupplierRecord::latest()->get();
+        $supplierRecord = SupplierRecord::latest()->paginate(100);
 
         return view('mutasi-barang.record', compact('supplierRecord'));
     }

@@ -21,16 +21,14 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ url('css/jquerymodified.dataTables.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url('css/jquerymodified.dataTables.min.css') }}" />
     <style>
         /* CSS untuk mengubah kursor menjadi pointer saat baris tabel di-expand */
         tr.accordion-toggle[data-toggle="collapse"]:hover {
             cursor: pointer;
         }
-    </style>
-    <style>
-        #loading-spinner {
-            display: block;
+
+        #content {
+            display: none;
         }
     </style>

@@ -32,7 +32,9 @@
     <script src="{{ url('js/nested.tables.js') }}"></script>
     <script>
         $(document).ready(function() {
-            
+            // Menampilkan loading spinner
+            $("#loading-spinner").show();
+
             var currentPage = localStorage.getItem('currentPage') || '/label-supplier/record';
             loadPage(currentPage);
 
@@ -41,10 +43,15 @@
                     url: pageUrl,
                     type: 'GET',
                     success: function(data) {
+                        // Menyembunyikan loading spinner
+                        $("#loading-spinner").hide();
+
                         $('#showPage').html(data);
                     },
                     error: function(xhr) {
-                        console.log(xhr.responseText);
+                        // Menyembunyikan loading spinner dan menampilkan pesan kesalahan jika diperlukan
+                        $("#loading-spinner").hide();
+                        $('#showPage').html(data);
                     }
                 });
             }

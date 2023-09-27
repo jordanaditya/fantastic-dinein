@@ -9,7 +9,7 @@ class LabelEfiController extends Controller
 {
     public function index()
     {
-        $supplierRecord = SupplierRecord::latest()->get();
+        $supplierRecord = SupplierRecord::latest()->paginate(100);
         return view('label-efi.record', compact('supplierRecord'));
     }
 }

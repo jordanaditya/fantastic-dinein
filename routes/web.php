@@ -11,5 +11,8 @@ Route::get('/label-supplier/record/get-stockcode', [App\Http\Controllers\LabelSu
 Route::get('/label-supplier/record/get-barcode', [App\Http\Controllers\LabelSupplierController::class, 'tabelBarcodes']);
 
 Route::get('/label-job/record', [App\Http\Controllers\LabelJobController::class, 'index']);
+Route::get('/label-job/master', [App\Http\Controllers\LabelJobController::class, 'job']);
+
+
 Route::get('/mutasi-barang/record', [App\Http\Controllers\MutasiBarangController::class, 'index']);
 Route::get('/label-efi/record', [App\Http\Controllers\LabelEfiController::class, 'index']);
